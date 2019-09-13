@@ -72,9 +72,9 @@ thickTrainDir = "data/train/thick"
 thinTrainDir = "data/train/thin"
 thickValDir = "data/validation/thick"
 thinValDir = "data/validation/thin"
-size = 300
-totalTrain = 100
-totalVal = 20
+size = 256
+totalTrain = 1000
+totalVal = 200
 thickWidth = 12
 thinWidth = 4
 
