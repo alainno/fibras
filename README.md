@@ -2,7 +2,7 @@
 
 Este proyecto contiene lo siguiente:
 
-1. Determinación del diámetro de la fibra con técnicas tradicionales de visión computacional ([diameter.py](/diameter.py))
+1. Determinación del diámetro de la fibra con técnicas tradicionales de visión computacional ([diameter.py](/diametro.py))
 
 2. Generación de muestras aleatorias de fibras ([rand-images.py](/rand-images.py))
 
