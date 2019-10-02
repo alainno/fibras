@@ -1,6 +1,7 @@
 from tqdm import tqdm
 from PIL import Image,ImageDraw
 from random import randint
+import os, shutil
 
 def drawRandomFiber(img, lines, width):
     d = ImageDraw.Draw(img)
@@ -49,12 +50,13 @@ def randomLines(size):
     return lines
 
 def createFiberImage(size, width, directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    emptyDir(directory)
     img = Image.new('RGB', (size, size), "black")
     randLines = randomLines(size)
     drawRandomFiber(img, randLines, width)
     img.save(directory + "/" + str(i + 1).zfill(4) + ".png", "PNG")
-
-import os, shutil
 
 def emptyDir(folder):
     #folder = '/path/to/folder'
@@ -78,10 +80,10 @@ totalVal = 200
 thickWidth = 12
 thinWidth = 4
 
-emptyDir(thickTrainDir)
-emptyDir(thinTrainDir)
-emptyDir(thickValDir)
-emptyDir(thinValDir)
+#emptyDir(thickTrainDir)
+#emptyDir(thinTrainDir)
+#emptyDir(thickValDir)
+#emptyDir(thinValDir)
 
 # train
 for i in tqdm(range(totalTrain)):
