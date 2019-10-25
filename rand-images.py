@@ -80,22 +80,27 @@ totalVal = 200
 thickWidth = 12
 thinWidth = 4
 
-#emptyDir(thickTrainDir)
-#emptyDir(thinTrainDir)
-#emptyDir(thickValDir)
-#emptyDir(thinValDir)
+emptyDir(thickTrainDir)
+emptyDir(thinTrainDir)
+emptyDir(thickValDir)
+emptyDir(thinValDir)
 
 # train
-#for i in tqdm(range(totalTrain)):
-    #createFiberImage(size, thickWidth, thickTrainDir)
-    #createFiberImage(size, thinWidth, thinTrainDir)
+for i in tqdm(range(totalTrain)):
+    createFiberImage(size, thickWidth, thickTrainDir)
+    createFiberImage(size, thinWidth, thinTrainDir)
 
 # val
-#for i in tqdm(range(totalVal)):
-    #createFiberImage(size, thickWidth, thickValDir)
-    #createFiberImage(size, thinWidth, thinValDir)
-    
+for i in tqdm(range(totalVal)):
+    createFiberImage(size, thickWidth, thickValDir)
+    createFiberImage(size, thinWidth, thinValDir)
+
+# test
+testDir = "data/test"
+emptyDir(testDir)
+
+print('Creando imágenes de test...')
 for i in tqdm(range(20)):
-    createFiberImage(256, i+1, "data/test")
+    createFiberImage(size, i+1, testDir)
 
 
