@@ -52,7 +52,7 @@ def randomLines(size):
 def createFiberImage(size, width, directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
-    emptyDir(directory)
+    #emptyDir(directory)
     img = Image.new('RGB', (size, size), "black")
     randLines = randomLines(size)
     drawRandomFiber(img, randLines, width)
@@ -86,13 +86,16 @@ thinWidth = 4
 #emptyDir(thinValDir)
 
 # train
-for i in tqdm(range(totalTrain)):
-    createFiberImage(size, thickWidth, thickTrainDir)
-    createFiberImage(size, thinWidth, thinTrainDir)
+#for i in tqdm(range(totalTrain)):
+    #createFiberImage(size, thickWidth, thickTrainDir)
+    #createFiberImage(size, thinWidth, thinTrainDir)
 
 # val
-for i in tqdm(range(totalVal)):
-    createFiberImage(size, thickWidth, thickValDir)
-    createFiberImage(size, thinWidth, thinValDir)
+#for i in tqdm(range(totalVal)):
+    #createFiberImage(size, thickWidth, thickValDir)
+    #createFiberImage(size, thinWidth, thinValDir)
+    
+for i in tqdm(range(20)):
+    createFiberImage(256, i+1, "data/test")
 
 
