@@ -14,7 +14,7 @@ print(time)
 
 # Amplitude of the sine wave is sine of a variable like time
 
-amplitude = np.sin(0.1*time)
+amplitude = np.sin(0.01*time)
 print("amplitude:")
 print(amplitude)
 
@@ -63,7 +63,7 @@ img = Image.new("RGB", (w, h))
 #img1.arc(shape, start = 30, end = 1, fill ="white")
 #img1.arc(shape, 90, -90, 'white')
 draw = aggdraw.Draw(img)
-pen = aggdraw.Pen("white", 1)
+pen = aggdraw.Pen("white", 10)
 #draw.arc([10,10,w-10,h-10], 90, -90, pen)
 #draw.flush()
 #img.show()
@@ -81,14 +81,40 @@ def getPen(index):
 
     return aggdraw.Pen(color, 1)
 
-for i, a in enumerate(amplitude):
-    #new_a = a*10 + 10
-    if i > 0:
-        draw.line((time[i-1], mitad - round(amplitude[i-1]*pond), time[i], mitad - round(a*pond)), pen)
+#for i, a in enumerate(amplitude):
+#    if i > 0:
+#        draw.line([time[i-1], mitad - round(amplitude[i-1]*pond), time[i], mitad - round(a*pond)], pen)
         #img1.point([time[i], mitad + round(a)*10],'white')
     #draw.line((0, 0, time[i], mitad - round(a)*pond), getPen(i%2))
 
 #draw.line((time[0],mitad + amplitude[0]*pond,time[1],10), pen)
+
+import math
+
+def rotate(origin, point, angle):
+    """
+    Rotate a point counterclockwise by a given angle around a given origin.
+
+    The angle should be given in radians.
+    """
+    ox, oy = origin
+    px, py = point
+
+    qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
+    qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
+    return qx, qy
+
+xy_points = []
+for i, a in enumerate(amplitude):
+
+    point = rotate((0,0), (time[i],round(a*pond)),math.radians(45))
+
+    xy_points.append(point[0])
+    xy_points.append(mitad - point[1])
+
+
+draw.line(xy_points, pen)
+
 
 draw.flush()
 
