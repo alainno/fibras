@@ -104,17 +104,26 @@ def rotate(origin, point, angle):
     qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
     return qx, qy
 
+xy_sine = []
 xy_points = []
+
 for i, a in enumerate(amplitude):
+
+    xy_sine.append(time[i])
+    xy_sine.append(mitad - round(a*pond))
 
     point = rotate((0,0), (time[i],round(a*pond)),math.radians(45))
 
-    xy_points.append(point[0])
+    xy_points.append(100 + point[0])
     xy_points.append(mitad - point[1])
+    #xy_points.append(point[1])
 
 
+red_pen = aggdraw.Pen("red", 10)
+
+# dibujar puntos rotados
+draw.line(xy_sine, red_pen)
 draw.line(xy_points, pen)
-
 
 draw.flush()
 

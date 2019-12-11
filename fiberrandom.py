@@ -9,15 +9,18 @@ class FiberSample():
         #print("Width: ", str(self.witdh))
 
     def fiberLine(self, dx, dy):
-        centro = self.width / 2, self.height / 2
+        #centro = self.width / 2, self.height / 2
+        cx, cy = self.width / 2, self.height / 2
 
-        x, y = centro[0] + dx, centro[1] + dy
+        #x, y = centro[0] + dx, centro[1] + dy
+        x, y = cx + dx, cy + dy
         m = dy / dx
 
         if (dx < 0):
             ox = 0
         else:
             ox = self.width
+
         if (dy < 0):
             oy = 0
         else:
@@ -27,6 +30,8 @@ class FiberSample():
         x_ = x - (oy - y) * m
 
         return [(ox, y_), (x_, oy)]
+        #[(x_,oy),(ox,y_)]
+        #[(ox,oy),(x_,y_)]
 
     def randValue(self,limit):
         return randint(1, limit)
@@ -38,13 +43,14 @@ class FiberSample():
         ylimit = self.height / 2
 
         for i in range(total):
-            if(i%4==0):
+            mod = i%4
+            if(mod==0):
                 lines.append(self.fiberLine(-self.randValue(xlimit), -self.randValue(ylimit)))
-            elif(i%4==1):
+            elif(mod==1):
                 lines.append(self.fiberLine(-self.randValue(xlimit), self.randValue(ylimit)))
-            elif(i%4==2):
+            elif(mod==2):
                 lines.append(self.fiberLine(self.randValue(xlimit), -self.randValue(ylimit)))
-            elif(i%4==3):
+            elif(mod==3):
                 lines.append(self.fiberLine(self.randValue(xlimit), self.randValue(ylimit)))
 
         return lines
@@ -60,11 +66,30 @@ class FiberSample():
         self.drawFibers(img, lines, min_width, max_width)
         return img
 
+    def createRandomLine(self):
+        xlimit = self.width / 2
+        ylimit = self.height / 2
+        cuadrante_a = 1 - randint(0, 1)*2
+        cuadrante_b = 1 - randint(0, 1)*2
+        print('cuadrante a:',cuadrante_a)
+        print('cuadrante b:',cuadrante_b)
 
-fiberSample = FiberSample(100,300)
-#createFiberImage(size, width, testDir)
+        dx = self.randValue(xlimit)*cuadrante_a
+        dy = self.randValue(ylimit)*cuadrante_b
 
-print('Generate fiber sample with random widths')
-img = fiberSample.createFiberSample(20, 1, 20)
-img.save("fiber-sample.png", "PNG")
+        print('dx:', dx)
+        print('dy:', dy)
+
+        return self.fiberLine(dx, dy)
+
+
+
+if __name__ == "__main__":
+    fiberSample = FiberSample(400,300)
+    #createFiberImage(size, width, testDir)
+
+    print('Generate fiber sample with random widths')
+    img = fiberSample.createFiberSample(1, 5, 5)
+    #img.save("fiber-sample.png", "PNG")
+    img.show()
 
