@@ -8,6 +8,37 @@ class FiberSample():
         self.height = height
         #print("Width: ", str(self.witdh))
 
+    def perpendicular_y(self,m,x1,y1,x):
+        return (y1 - (x - x1)/m)
+
+    def perpendicular_x(self,m,x1,y1,y):
+        return (x1 - (y - y1)*m)
+
+    def perpendicular_line(self, dx, dy):
+
+        points = []
+
+        m = dy / dx
+
+        x = 0
+        y = self.perpendicular_y(m, dx, dy, x)
+
+        if(y<0):
+            y = 0
+            x = self.perpendicular_x(m, dx, dy, y)
+
+        points.append((x,y))
+
+        x = self.width
+        y = self.perpendicular_y(m, dx, dy, x)
+        if(y > self.height):
+            y = self.height
+            x = self.perpendicular_x(m, dx, dy, y)
+
+        points.append((x, y))
+        return points
+
+
     def fiberLine(self, dx, dy):
         #centro = self.width / 2, self.height / 2
         cx, cy = self.width / 2, self.height / 2
@@ -30,8 +61,6 @@ class FiberSample():
         x_ = x - (oy - y) * m
 
         return [(ox, y_), (x_, oy)]
-        #[(x_,oy),(ox,y_)]
-        #[(ox,oy),(x_,y_)]
 
     def randValue(self,limit):
         return randint(1, limit)
@@ -80,7 +109,8 @@ class FiberSample():
         print('dx:', dx)
         print('dy:', dy)
 
-        return self.fiberLine(dx, dy)
+        #return self.fiberLine(dx, dy)
+        return self.perpendicular_line(dx, dy)
 
 
 
