@@ -15,27 +15,36 @@ class FiberSample():
         return (x1 - (y - y1)*m)
 
     def perpendicular_line(self, dx, dy):
-
         points = []
-
         m = dy / dx
+        cx, cy = self.width / 2, self.height / 2
+        x1, y1 = cx + dx, cy + dy
+
+        print('x1:', x1, 'y1:', y1)
 
         x = 0
-        y = self.perpendicular_y(m, dx, dy, x)
+        y = self.perpendicular_y(m, x1, y1, x)
 
-        if(y<0):
-            y = 0
-            x = self.perpendicular_x(m, dx, dy, y)
+        if(y < 0 or y > self.height):
+            x = self.perpendicular_x(m, x1, y1, y)
+            if(y<0):
+                y=0
+            elif(y>self.height):
+                y=self.height
 
-        points.append((x,y))
+        points.append((round(x),round(y)))
 
         x = self.width
-        y = self.perpendicular_y(m, dx, dy, x)
-        if(y > self.height):
-            y = self.height
-            x = self.perpendicular_x(m, dx, dy, y)
+        y = self.perpendicular_y(m, x1, y1, x)
 
-        points.append((x, y))
+        if (y < 0 or y > self.height):
+            x = self.perpendicular_x(m, x1, y1, y)
+            if (y < 0):
+                y = 0
+            elif (y > self.height):
+                y = self.height
+
+        points.append((round(x), round(y)))
         return points
 
 
@@ -100,18 +109,56 @@ class FiberSample():
         ylimit = self.height / 2
         cuadrante_a = 1 - randint(0, 1)*2
         cuadrante_b = 1 - randint(0, 1)*2
-        print('cuadrante a:',cuadrante_a)
-        print('cuadrante b:',cuadrante_b)
+        #print('cuadrante a:',cuadrante_a)
+        #print('cuadrante b:',cuadrante_b)
 
         dx = self.randValue(xlimit)*cuadrante_a
         dy = self.randValue(ylimit)*cuadrante_b
 
-        print('dx:', dx)
-        print('dy:', dy)
+        print('dx:', dx, 'dy:', dy)
+
+        return [(xlimit, ylimit), (dx+xlimit, dy+ylimit)]
 
         #return self.fiberLine(dx, dy)
-        return self.perpendicular_line(dx, dy)
+        #return self.perpendicular_line(dx, dy)
 
+    def getPerpendicular(self, line):
+        points = []
+
+        cx, cy = line[0]
+        x1, y1 = line[1]
+
+        m = (y1-cy) / (x1-cx)
+
+        print('m:', m)
+
+        print('x1:', x1)
+        print('y1:', y1)
+
+        x = 0
+        y = self.perpendicular_y(m, x1, y1, x)
+
+        if (y < 0):
+            y = 0
+            x = self.perpendicular_x(m, x1, y1, y)
+        elif (y > self.height):
+            y = self.height
+            x = self.perpendicular_x(m, x1, y1, y)
+
+        points.append((round(x), round(y)))
+
+        x = self.width
+        y = self.perpendicular_y(m, x1, y1, x)
+
+        if (y < 0):
+            y = 0
+            x = self.perpendicular_x(m, x1, y1, y)
+        elif (y > self.height):
+            y = self.height
+            x = self.perpendicular_x(m, x1, y1, y)
+
+        points.append((round(x), round(y)))
+        return points
 
 
 if __name__ == "__main__":
