@@ -1,4 +1,4 @@
-# Modelo de red neuronal convolucional para la determinación de la calidad de la fibra de alpaca
+# Modelo computacional para la determinación de la calidad de la fibra de alpaca
 
 Este proyecto contiene lo siguiente:
 
@@ -6,4 +6,11 @@ Este proyecto contiene lo siguiente:
 
 2. Generación de muestras aleatorias de fibras ([rand-images.py](/rand-images.py))
 
-3. Implementación de un modelo de red neuronal convolutiva ([trainning.ipynb](/trainning.ipynb))
+3. Implementación de un modelo de red neuronal convolucional ([trainning.ipynb](/trainning.ipynb))
+
+4. Generación aleatoria de muestras sintéticas de fibras curvas ([fiber-wave.py](/fiber-wave.py))
+
+## Propósito
+
+Crear un equipo con software open source y hardware económico para que los alpaqueros y/o productores de fibra de alpaca evaluen la calidad de la fibra.
+
