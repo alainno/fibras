@@ -10,7 +10,7 @@ Este proyecto contiene lo siguiente:
 
 4. Generación aleatoria de muestras sintéticas de fibras curvas ([fiber-wave.py](/fiber-wave.py))
 
-## Propósito
+## Objetivo
 
 Crear un equipo con software open source y hardware económico para que los alpaqueros y/o productores de fibra de alpaca evaluen la calidad de la fibra.
 
