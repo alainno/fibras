@@ -18,42 +18,43 @@ def createFiberWave():
     distance = getDistance(perp_points)
     print('distance:', round(distance))
     time = np.arange(0, distance, 1)
-    print('time:', time)
+    #print('time:', time)
 
     # generar amplitud
     amplitude = np.sin(0.01 * time)
-    print('amplitud:', amplitude)
+    #print('amplitud:', amplitude)
 
     # obtener angulo de la recta aleatoria
-    x1, x2 = perp_points[0]
-    y1, y2 = perp_points[1]
+    x1, y1 = perp_points[0]
+    x2, y2 = perp_points[1]
     m = (y2-y1)/(x2-x1)
     angle = math.atan(m)
     print('angle:', math.degrees(angle))
 
     # rotar
 
-    xy_sine = []
-    xy_points = []
+    sine_points = []
+    rotated_points = []
     pond = 5
     mitad = fiberSample.height/2
 
     for i, a in enumerate(amplitude):
-        xy_sine.append(time[i])
-        xy_sine.append(mitad - round(a * pond))
+        sine_points.append(time[i] + x1)
+        sine_points.append(y1 - round(a * pond))
 
-        point = rotate((0, 0), (time[i], round(a * pond)), angle)
+        point = rotate((0, 0), (time[i], round(a * pond)), -angle)
 
-        xy_points.append(point[0])
-        xy_points.append(point[1])
+        rotated_points.append(point[0] + x1)
+        rotated_points.append(y1 - point[1])
 
-        # Mostrando proceso a tráves de rectas
-        img = Image.new('RGB', (fiberSample.width, fiberSample.height), "black")
-        draw = ImageDraw.Draw(img)
-        draw.line(points, fill=(255, 255, 255), width=1)
-        draw.line(perp_points, fill=(255, 255, 255), width=1)
+    # Mostrando proceso a tráves de rectas
+    img = Image.new('RGB', (fiberSample.width, fiberSample.height), "black")
+    draw = ImageDraw.Draw(img)
+    draw.line(points, fill=(255, 255, 255), width=1)
+    draw.line(perp_points, fill=(255, 0, 0), width=1)
+    #draw.line(sine_points, fill=(0, 255, 0), width=1)
+    draw.line(rotated_points, fill=(0, 255, 255), width=1)
 
-    draw.line(xy_points, fill=(255, 255, 255), width=2)
     img.show()
 
 
