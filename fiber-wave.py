@@ -53,7 +53,7 @@ def createFiberWave():
     draw.line(points, fill=(255, 255, 255), width=1)
     draw.line(perp_points, fill=(255, 0, 0), width=1)
     #draw.line(sine_points, fill=(0, 255, 0), width=1)
-    draw.line(rotated_points, fill=(0, 255, 255), width=1)
+    draw.line(rotated_points, fill=(0, 255, 255), width=2)
 
     img.show()
 
