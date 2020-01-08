@@ -1,5 +1,7 @@
 from PIL import Image,ImageDraw
 from random import randint
+import math
+import numpy as np
 
 class FiberSample():
 
@@ -76,7 +78,6 @@ class FiberSample():
 
     def createRandomLines(self, total):
         lines = []
-        #limit = self.width / 2
         xlimit = self.width / 2
         ylimit = self.height / 2
 
@@ -119,8 +120,6 @@ class FiberSample():
 
         return [(xlimit, ylimit), (dx+xlimit, dy+ylimit)]
 
-        #return self.fiberLine(dx, dy)
-        #return self.perpendicular_line(dx, dy)
 
     def getPerpendicular(self, line):
         points = []
@@ -160,13 +159,103 @@ class FiberSample():
         points.append((round(x), round(y)))
         return points
 
+    def createFiberWavedSample(self, fiber_number, min_width, max_width):
+        img = Image.new('RGB', (self.width, self.height), "black")
+        waves = self.createRandomWaves(fiber_number)
+        self.drawWavedFibers(img, waves, min_width, max_width)
+        return img
+
+    def drawWavedFibers(self, img, waves, min_width, max_width):
+        draw = ImageDraw.Draw(img)
+        for wave_points in waves:
+            draw.line(wave_points, fill=(255, 255, 255), width=randint(min_width, max_width))
+
+    def createRandomWaves(self, total):
+        waves = []
+
+        #waves.append([1, 1, 20, 20, 30, 30, 40, 40])
+        #waves.append([50, 1, 70, 20, 80, 30, 90, 40])
+
+        for i in range(total):
+            waves.append(self.createFiberWave())
+        return waves
+
+    def createFiberWave(self):
+
+        #fiberSample = FiberSample(256, 256)
+        # trazar una línea aleatoria con u radomness
+        points = self.createRandomLine()
+        #print('Recta aleatoria:', points)
+
+        perp_points = self.getPerpendicular(points)
+        #print('Recta perpendicular:', perp_points)
+
+        # trazar onda senoidal
+        # obtener la longitud de la recta aleatoria (time)
+        distance = self.getDistance(perp_points)
+        print('distance:', round(distance))
+        time = np.arange(0, distance, 1)
+        # print('time:', time)
+
+        # generar amplitud
+        amplitude = np.sin(0.05 * time)
+        # print('amplitud:', amplitude)
+
+        # obtener angulo de la recta aleatoria
+        x1, y1 = perp_points[0]
+        x2, y2 = perp_points[1]
+        m = (y2 - y1) / (x2 - x1)
+        angle = math.atan(m)
+        print('angle:', math.degrees(angle))
+
+        # rotar
+
+        sine_points = []
+        rotated_points = []
+        pond = 5
+        #mitad = fiberSample.height / 2
+
+        for i, a in enumerate(amplitude):
+            sine_points.append(time[i] + x1)
+            sine_points.append(y1 - round(a * pond))
+
+            point = self.rotate((0, 0), (time[i], round(a * pond)), -angle)
+
+            rotated_points.append(point[0] + x1)
+            rotated_points.append(y1 - point[1])
+
+        return rotated_points
+
+    # obtiene la distancia euclideana entre dos puntos
+    def getDistance(self, line):
+        x1, y1 = line[0]
+        x2, y2 = line[1]
+        return math.sqrt((x2-x1)**2 + (y2-y1)**2)
+
+    def rotate(self, origin, point, angle):
+        """
+        Rotate a point counterclockwise by a given angle around a given origin.
+        The angle should be given in radians.
+        """
+        ox, oy = origin
+        px, py = point
+
+        qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
+        qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
+        return qx, qy
+
+    def getWavePoints(self):
+        pass
+
 
 if __name__ == "__main__":
-    fiberSample = FiberSample(400,300)
+    fiberSample = FiberSample(300,300)
     #createFiberImage(size, width, testDir)
 
     print('Generate fiber sample with random widths')
-    img = fiberSample.createFiberSample(1, 5, 5)
+    #img = fiberSample.createFiberSample(10, 1, 5)
+    img = fiberSample.createFiberWavedSample(15, 1, 5)
     #img.save("fiber-sample.png", "PNG")
     img.show()
+
 
