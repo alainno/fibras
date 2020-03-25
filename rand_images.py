@@ -2,6 +2,7 @@ from tqdm import tqdm
 from PIL import Image,ImageDraw
 from random import randint
 import os, shutil
+#from fiberrandom import FiberSample
 
 def drawRandomFiber(img, lines, width):
     d = ImageDraw.Draw(img)
@@ -69,38 +70,40 @@ def emptyDir(folder):
         except Exception as e:
             print(e)
 
+if __name__ == "__main__":
+    thickTrainDir = "data/train/thick"
+    thinTrainDir = "data/train/thin"
+    thickValDir = "data/validation/thick"
+    thinValDir = "data/validation/thin"
+    size = 256
+    totalTrain = 1000
+    totalVal = 200
+    thickWidth = 12
+    thinWidth = 4
 
-thickTrainDir = "data/train/thick"
-thinTrainDir = "data/train/thin"
-thickValDir = "data/validation/thick"
-thinValDir = "data/validation/thin"
-size = 256
-totalTrain = 1000
-totalVal = 200
-thickWidth = 12
-thinWidth = 4
+    emptyDir(thickTrainDir)
+    emptyDir(thinTrainDir)
+    emptyDir(thickValDir)
+    emptyDir(thinValDir)
 
-emptyDir(thickTrainDir)
-emptyDir(thinTrainDir)
-emptyDir(thickValDir)
-emptyDir(thinValDir)
+    # train
+    for i in tqdm(range(totalTrain)):
+        createFiberImage(size, thickWidth, thickTrainDir)
+        createFiberImage(size, thinWidth, thinTrainDir)
 
-# train
-for i in tqdm(range(totalTrain)):
-    createFiberImage(size, thickWidth, thickTrainDir)
-    createFiberImage(size, thinWidth, thinTrainDir)
+    # val
+    for i in tqdm(range(totalVal)):
+        createFiberImage(size, thickWidth, thickValDir)
+        createFiberImage(size, thinWidth, thinValDir)
 
-# val
-for i in tqdm(range(totalVal)):
-    createFiberImage(size, thickWidth, thickValDir)
-    createFiberImage(size, thinWidth, thinValDir)
+    # test
+    testDir = "data/test"
+    emptyDir(testDir)
 
-# test
-testDir = "data/test"
-emptyDir(testDir)
+    print('Creando imágenes de test...')
+    for i in tqdm(range(20)):
+        createFiberImage(size, i+1, testDir)
 
-print('Creando imágenes de test...')
-for i in tqdm(range(20)):
-    createFiberImage(size, i+1, testDir)
+
 
 

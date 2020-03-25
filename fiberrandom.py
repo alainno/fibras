@@ -3,6 +3,8 @@ from random import randint
 import math
 import numpy as np
 
+from rand_images import emptyDir
+
 class FiberSample():
 
     def __init__(self, width=256, height=256):
@@ -249,13 +251,20 @@ class FiberSample():
 
 
 if __name__ == "__main__":
-    fiberSample = FiberSample(300,300)
+    fiberSample = FiberSample(256,256)
     #createFiberImage(size, width, testDir)
 
     print('Generate fiber sample with random widths')
     #img = fiberSample.createFiberSample(10, 1, 5)
-    img = fiberSample.createFiberWavedSample(15, 1, 5)
+    #img = fiberSample.createFiberWavedSample(15, 12, 12)
     #img.save("fiber-sample.png", "PNG")
-    img.show()
+    #img.show()
+
+    testDir = "data/test"
+    emptyDir(testDir)
+
+    for i in range(20):
+        img = fiberSample.createFiberWavedSample(16, i+1, i+1)
+        img.save(testDir + "/" + str(i + 1).zfill(4) + ".png", "PNG")
 
 
