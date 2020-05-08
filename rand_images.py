@@ -36,7 +36,7 @@ def fiberLine(size, dx, dy):
     return [(ox, y_), (x_, oy)]
 
 def randValue(limit):
-  return randint(1,limit)
+    return randint(1,limit)
 
 def randomLines(size):
     lines = []
@@ -73,36 +73,48 @@ def emptyDir(folder):
 if __name__ == "__main__":
     thickTrainDir = "data/train/thick"
     thinTrainDir = "data/train/thin"
+    mediumTrainDir = "data/train/medium"
+    
     thickValDir = "data/validation/thick"
     thinValDir = "data/validation/thin"
+    mediumValDir = "data/validation/medium"
+    
     size = 256
     totalTrain = 1000
     totalVal = 200
+    
     thickWidth = 12
     thinWidth = 4
+    mediumWidth = 8
 
     emptyDir(thickTrainDir)
     emptyDir(thinTrainDir)
+    emptyDir(mediumTrainDir)
     emptyDir(thickValDir)
     emptyDir(thinValDir)
+    emptyDir(mediumValDir)
 
     # train
+    print("Generating trainning images...")
     for i in tqdm(range(totalTrain)):
         createFiberImage(size, thickWidth, thickTrainDir)
         createFiberImage(size, thinWidth, thinTrainDir)
+        createFiberImage(size, mediumWidth, mediumTrainDir)
 
     # val
+    print("Generating validation images...")
     for i in tqdm(range(totalVal)):
         createFiberImage(size, thickWidth, thickValDir)
         createFiberImage(size, thinWidth, thinValDir)
+        createFiberImage(size, mediumWidth, mediumValDir)
 
     # test
-    testDir = "data/test"
-    emptyDir(testDir)
+    #testDir = "data/test"
+    #emptyDir(testDir)
 
-    print('Creando imágenes de test...')
-    for i in tqdm(range(20)):
-        createFiberImage(size, i+1, testDir)
+    #print('Creando imágenes de test...')
+    #for i in tqdm(range(20)):
+        #createFiberImage(size, i+1, testDir)
 
 
 
