@@ -1,6 +1,8 @@
 data/
+data_wave/
 venv/
 images/
 .ipynb_checkpoints/
+__pycache__/
 preview/
 model.h5
