@@ -2,6 +2,8 @@ from PIL import Image,ImageDraw
 from random import randint
 import math
 import numpy as np
+from tqdm import tqdm
+import os, shutil
 
 from rand_images import emptyDir
 
@@ -115,8 +117,9 @@ class FiberSample():
         #print('cuadrante a:',cuadrante_a)
         #print('cuadrante b:',cuadrante_b)
 
-        dx = self.randValue(xlimit)*cuadrante_a
-        dy = self.randValue(ylimit)*cuadrante_b
+        # las distancias dx,dy como maximo seran 1 menor al limite sino se creara una perpendicular de tamaño 0
+        dx = self.randValue(xlimit-1)*cuadrante_a
+        dy = self.randValue(ylimit-1)*cuadrante_b
 
         print('dx:', dx, 'dy:', dy)
 
@@ -137,11 +140,11 @@ class FiberSample():
         print('y1:', y1)
 
         x = 0
-        y = self.perpendicular_y(m, x1, y1, x)
+        y = self.perpendicular_y(m, x1, y1, x) # y1 - (x - x1) / m
 
         if (y < 0):
             y = 0
-            x = self.perpendicular_x(m, x1, y1, y)
+            x = self.perpendicular_x(m, x1, y1, y) # x1 - (y - y1) * m
         elif (y > self.height):
             y = self.height
             x = self.perpendicular_x(m, x1, y1, y)
@@ -149,7 +152,7 @@ class FiberSample():
         points.append((round(x), round(y)))
 
         x = self.width
-        y = self.perpendicular_y(m, x1, y1, x)
+        y = self.perpendicular_y(m, x1, y1, x) 
 
         if (y < 0):
             y = 0
@@ -190,7 +193,7 @@ class FiberSample():
         #print('Recta aleatoria:', points)
 
         perp_points = self.getPerpendicular(points)
-        #print('Recta perpendicular:', perp_points)
+        print('Recta perpendicular:', perp_points)
 
         # trazar onda senoidal
         # obtener la longitud de la recta aleatoria (time)
@@ -249,6 +252,17 @@ class FiberSample():
     def getWavePoints(self):
         pass
 
+    
+def emptyDir(folder):
+    #folder = '/path/to/folder'
+    for the_file in os.listdir(folder):
+        file_path = os.path.join(folder, the_file)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+            #elif os.path.isdir(file_path): shutil.rmtree(file_path)
+        except Exception as e:
+            print(e)    
 
 if __name__ == "__main__":
     fiberSample = FiberSample(256,256)
@@ -259,12 +273,45 @@ if __name__ == "__main__":
     #img = fiberSample.createFiberWavedSample(15, 12, 12)
     #img.save("fiber-sample.png", "PNG")
     #img.show()
-
+    
+    '''
     testDir = "data/test"
     emptyDir(testDir)
 
     for i in range(20):
         img = fiberSample.createFiberWavedSample(16, i+1, i+1)
         img.save(testDir + "/" + str(i + 1).zfill(4) + ".png", "PNG")
+       ''' 
+        
+    trainDir = "data_wave/train"
+    valDir = "data_wave/validation"
+    thinDir = "/thin"
+    thickDir = "/thick"
+    
+    fibers = 16
+    thin_width = 4
+    thick_width = 12
+    
+    emptyDir(trainDir + thinDir)
+    emptyDir(trainDir + thickDir)
+    
+    for i in tqdm(range(1000)):
+        img = fiberSample.createFiberWavedSample(fibers, thin_width, thin_width)
+        img.save(trainDir + thinDir + "/" + str(i + 1).zfill(4) + ".png", "PNG")
+        
+        img = fiberSample.createFiberWavedSample(fibers, thick_width, thick_width)
+        img.save(trainDir + thickDir + "/" + str(i + 1).zfill(4) + ".png", "PNG")
+        
+
+    emptyDir(valDir + thinDir)
+    emptyDir(valDir + thickDir)
+    
+    for i in tqdm(range(200)):
+        img = fiberSample.createFiberWavedSample(fibers, thin_width, thin_width)
+        img.save(valDir + thinDir + "/" + str(i + 1).zfill(4) + ".png", "PNG")
+        
+        img = fiberSample.createFiberWavedSample(fibers, thick_width, thick_width)
+        img.save(valDir + thickDir + "/" + str(i + 1).zfill(4) + ".png", "PNG")
+        
 
 
