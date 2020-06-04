@@ -296,10 +296,12 @@ if __name__ == "__main__":
     emptyDir(trainDir + thickDir)
     
     for i in tqdm(range(1000)):
-        img = fiberSample.createFiberWavedSample(fibers, thin_width, thin_width)
+        fibers = randint(1,16)
+        img = fiberSample.createFiberWavedSample(fibers, 1, 8)
         img.save(trainDir + thinDir + "/" + str(i + 1).zfill(4) + ".png", "PNG")
         
-        img = fiberSample.createFiberWavedSample(fibers, thick_width, thick_width)
+        fibers = randint(1,16)
+        img = fiberSample.createFiberWavedSample(fibers, 9, 16)
         img.save(trainDir + thickDir + "/" + str(i + 1).zfill(4) + ".png", "PNG")
         
 
@@ -307,10 +309,12 @@ if __name__ == "__main__":
     emptyDir(valDir + thickDir)
     
     for i in tqdm(range(200)):
-        img = fiberSample.createFiberWavedSample(fibers, thin_width, thin_width)
+        fibers = randint(1,16)
+        img = fiberSample.createFiberWavedSample(fibers, 1, 8)
         img.save(valDir + thinDir + "/" + str(i + 1).zfill(4) + ".png", "PNG")
         
-        img = fiberSample.createFiberWavedSample(fibers, thick_width, thick_width)
+        fibers = randint(1,16)
+        img = fiberSample.createFiberWavedSample(fibers, 9, 16)
         img.save(valDir + thickDir + "/" + str(i + 1).zfill(4) + ".png", "PNG")
         
 
